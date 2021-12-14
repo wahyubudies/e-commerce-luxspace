@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductGalleryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,5 +27,6 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('dashboard')->name('dash
     
     Route::middleware('admin')->group( function() {   
         Route::resource('product', ProductController::class);
+        Route::resource('product.gallery', ProductGalleryController::class)->shallow()->except(['update', 'edit']);
     });    
 });

@@ -3,33 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Support\Str;
+use App\Models\ProductGallery;
 use Illuminate\Http\Request;
-use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
-class ProductController extends Controller
+class ProductGalleryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Product $product)
     {
         if ( request()->ajax() ){
             
-            $query = Product::query();
+            $query = ProductGallery::query();
             
             return DataTables::of( $query )                    
-                    ->editColumn( 'price', function($item) {
-                        return number_format($item->price);
+                    ->editColumn( 'url', function($item) {
+                        return '
+                            <img style="max-width:100px;" src="' . Storage::url($item->url) . '" />
+                        ';
+                    })
+                    ->editColumn( 'is_featured', function($item) {
+                        return $item->is_featured ? 'Yes' : 'No' ;
                     })
                     ->addColumn('action', function($item) {                        
                         return '
-                            <a href="' . route('dashboard.product.gallery.index', $item->id) . '" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded shadow-lg">Gallery</a>
-                            <a href="' . route('dashboard.product.edit', $item->id) . '" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded shadow-lg">Edit</a>
-                            <form class="inline-block" method="post" action="' . route('dashboard.product.destroy', $item->id) . '">
+                            <form class="inline-block" method="post" action="' . route('dashboard.product.gallery.destroy', $item->id) . '">
                                 ' . csrf_field('delete') . method_field('delete') . '
                                 <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded shadow-lg border-0 ml-1">
                                     Delete    
@@ -37,11 +40,11 @@ class ProductController extends Controller
                             </form>
                         ';
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['action', 'url'])
                     ->make();
         }
 
-        return view('pages.dashboard.product.index');
+        return view('pages.dashboard.gallery.index', ['product' => $product]);
     }
 
     /**
@@ -51,7 +54,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('pages.dashboard.product.create');
+        //
     }
 
     /**
@@ -60,14 +63,9 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->all();
-        $data['slug'] = Str::slug( $request->name );
-
-        Product::create($data);
-
-        return redirect()->route('dashboard.product.index');
+        //
     }
 
     /**
@@ -87,9 +85,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
-        return view('pages.dashboard.product.edit', ['product' => $product]);
+        //
     }
 
     /**
@@ -99,14 +97,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductRequest $request, Product $product)
+    public function update(Request $request, $id)
     {
-        $data = $request->all();
-        $data['slug'] = Str::slug( $request->name );
-
-        $product->update($data);
-
-        return redirect()->route('dashboard.product.index');
+        //
     }
 
     /**
@@ -115,10 +108,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        $product->delete();
-
-        return redirect()->route('dashboard.product.index');
+        $a = 'ANCOK';
+        return $a;
     }
 }

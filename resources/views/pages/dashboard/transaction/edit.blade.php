@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-            <a href="{{ route('dashboard.product.index') }}" class="text-pink-400 cursor-pointer">Product</a> &raquo; Create &raquo; {{ $product->name }}
+            <a href="{{ route('dashboard.transaction.index') }}" class="text-pink-400 cursor-pointer">Transaction</a> &raquo; Edit &raquo; {{ $transaction->name }}
         </h2>
     </x-slot>
 
@@ -23,26 +23,23 @@
                     </div>
                 @endif
             </div>
-            <form action="{{ route('dashboard.product.update', $product->id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('dashboard.transaction.update', $transaction->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
                 <div class="flex flex-wrap mx-3 mb-6">
                     <div class="w-full px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Name</label>
-                        <input type="text" name="name" value="{{ old('name') ?? $product->name }}" placeholder="Product Name..." class="block w-full bg-gray-200 text-gray-700 border-2 border-gray-200 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent">
-                    </div>
-                </div>
-                <div class="flex flex-wrap mx-3 mb-6">
-                    <div class="w-full px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Description</label>
-                        <textarea name="description" placeholder="Description..." class="block w-full bg-gray-200 text-gray-700 border-2 border-gray-200 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent">{!! old('description') ?? $product->description !!}</textarea>
-                    </div>
-                </div>
-                <div class="flex flex-wrap mx-3 mb-6">
-                    <div class="w-full px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Price</label>
-                        <input type="number" name="price" value="{{ old('price') ?? $product->price }}" placeholder="Price..." class="block w-full bg-gray-200 text-gray-700 border-2 border-gray-200 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Status</label>
+                        <select name="status" class="block w-full bg-gray-200 text-gray-700 border-2 border-gray-200 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent">
+                            <option value="{{ $transaction->status }}">{{ $transaction->status }}</option>
+                            <option disabled>----------</option>
+                            <option value="PENDING">PENDING</option>
+                            <option value="SUCCESS">SUCCESS</option>
+                            <option value="CANCELED">CANCELED</option>
+                            <option value="FAILED">FAILED</option>
+                            <option value="SHIPPING">SHIPPING</option>
+                            <option value="SHIPPED">SHIPPED</option>
+                        </select>
                     </div>
                 </div>
                 <div class="flex flex-wrap mx-3 mb-6">

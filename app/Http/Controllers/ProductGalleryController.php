@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductGalleryRequest;
 use App\Models\Product;
 use App\Models\ProductGallery;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -32,7 +35,7 @@ class ProductGalleryController extends Controller
                     })
                     ->addColumn('action', function($item) {                        
                         return '
-                            <form class="inline-block" method="post" action="' . route('dashboard.product.gallery.destroy', $item->id) . '">
+                            <form class="inline-block" method="post" action="' . route('dashboard.gallery.destroy', $item->id) . '">
                                 ' . csrf_field('delete') . method_field('delete') . '
                                 <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded shadow-lg border-0 ml-1">
                                     Delete    
@@ -52,9 +55,9 @@ class ProductGalleryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create( Product $product )
+    {        
+        return view('pages.dashboard.gallery.create', ['product' => $product]);
     }
 
     /**
@@ -63,9 +66,23 @@ class ProductGalleryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductGalleryRequest $request, Product $product)
     {
-        //
+        $files = $request->file('files');
+        
+        if ( $request->hasFile('files') ){            
+            foreach ($files as $file => $value) {                
+                $data[] = [
+                    'products_id' => $product->id,
+                    'url' => $value->store('public/product/gallery'),
+                    'is_featured' => 0,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ];                 
+            }                  
+            DB::table('product_galleries')->insert($data);
+        }
+        return redirect()->route('dashboard.product.gallery.index', $product->id);
     }
 
     /**
@@ -108,9 +125,10 @@ class ProductGalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ProductGallery $gallery)
     {
-        $a = 'ANCOK';
-        return $a;
+        $gallery->delete();
+
+        return redirect()->route('dashboard.product.gallery.index', $gallery->products_id);
     }
 }

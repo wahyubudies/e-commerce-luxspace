@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TransactionItem extends Model
 {
@@ -20,7 +20,7 @@ class TransactionItem extends Model
      */
     public function product()
     {
-        // return $this->hasOne(Product, 'id', 'products_id');
         return $this->belongsTo(Product::class, 'products_id', 'id');
+        //return $this->hasOne(Product::class, 'id', 'products_id');        
     }
 }

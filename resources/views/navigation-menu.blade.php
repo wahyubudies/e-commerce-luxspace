@@ -15,10 +15,14 @@
                     <x-jet-nav-link href="{{ route('dashboard.index') }}" :active="request()->routeIs('dashboard.index')">
                         {{ __('Dasboard') }}
                     </x-jet-nav-link>
-                    
-                    <x-jet-nav-link href="{{ route('dashboard.product.index') }}" :active="request()->routeIs('dashboard.product.*')">
-                        {{ __('Product') }}
-                    </x-jet-nav-link>
+                    @if( auth()->user()->roles == 'ADMIN' )
+                        <x-jet-nav-link href="{{ route('dashboard.product.index') }}" :active="request()->routeIs('dashboard.product.*')">
+                            {{ __('Product') }}
+                        </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('dashboard.transaction.index') }}" :active="request()->routeIs('dashboard.transaction.*')">
+                            {{ __('Transaction') }}
+                        </x-jet-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -145,6 +149,16 @@
             <x-jet-responsive-nav-link href="{{ route('dashboard.index') }}" :active="request()->routeIs('dashboard.index')">
                 {{ __('Dasboard') }}
             </x-jet-responsive-nav-link>
+
+            @if( auth()->user()->roles == 'ADMIN' )
+                <x-jet-responsive-nav-link href="{{ route('dashboard.product.index') }}" :active="request()->routeIs('dashboard.product.*')">
+                    {{ __('Product') }}
+                </x-jet-responsive-nav-link>
+                
+                <x-jet-responsive-nav-link href="{{ route('dashboard.transaction.index') }}" :active="request()->routeIs('dashboard.transaction.*')">
+                    {{ __('Transaction') }}
+                </x-jet-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

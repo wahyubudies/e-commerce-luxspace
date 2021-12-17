@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-            <a href="{{ route('dashboard.product.index') }}" class="text-pink-400 cursor-pointer">Product</a> &raquo; Create
+            <a href="{{ route('dashboard.product.index') }}" class="text-pink-400 cursor-pointer">Product</a> &raquo; {{ $product->name }} &raquo; Gallery &raquo; Upload Photos
         </h2>
     </x-slot>
 
@@ -23,24 +23,12 @@
                     </div>
                 @endif
             </div>
-            <form action="{{ route('dashboard.product.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('dashboard.product.gallery.store', $product->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="flex flex-wrap mx-3 mb-6">
                     <div class="w-full px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Name</label>
-                        <input type="text" name="name" value="{{ old('name') }}" placeholder="Product Name..." class="block w-full bg-gray-200 text-gray-700 border-2 border-gray-200 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent">
-                    </div>
-                </div>
-                <div class="flex flex-wrap mx-3 mb-6">
-                    <div class="w-full px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Description</label>
-                        <textarea name="description" placeholder="Description..." class="block w-full bg-gray-200 text-gray-700 border-2 border-gray-200 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent">{!! old('description') !!}</textarea>
-                    </div>
-                </div>
-                <div class="flex flex-wrap mx-3 mb-6">
-                    <div class="w-full px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Price</label>
-                        <input type="number" name="price" value="{{ old('price') }}" placeholder="Price..." class="block w-full bg-gray-200 text-gray-700 border-2 border-gray-200 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Files</label>
+                        <input type="file" name="files[]" multiple accept="image/*" class="block w-full bg-gray-200 text-gray-700 border-2 border-gray-200 rounded p-2 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent">
                     </div>
                 </div>
                 <div class="flex flex-wrap mx-3 mb-6">

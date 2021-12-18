@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-            <a href="{{ route('dashboard.product.index') }}" class="text-pink-400 cursor-pointer">Product</a> &raquo; Edit &raquo; {{ $product->name }}
+            <a href="{{ route('dashboard.user.index') }}" class="text-pink-400 cursor-pointer">User</a> &raquo; Edit &raquo; {{ $user->name }}
         </h2>
     </x-slot>
 
@@ -23,26 +23,31 @@
                     </div>
                 @endif
             </div>
-            <form action="{{ route('dashboard.product.update', $product->id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('dashboard.user.update', $user->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
                 <div class="flex flex-wrap mx-3 mb-6">
                     <div class="w-full px-3">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Name</label>
-                        <input type="text" name="name" value="{{ old('name') ?? $product->name }}" placeholder="Product Name..." class="block w-full bg-gray-200 text-gray-700 border-2 border-gray-200 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent">
+                        <input type="text" name="name" value="{{ old('name') ?? $user->name }}" placeholder="User Name..." class="block w-full bg-gray-200 text-gray-700 border-2 border-gray-200 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent">
                     </div>
                 </div>
                 <div class="flex flex-wrap mx-3 mb-6">
                     <div class="w-full px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Description</label>
-                        <textarea name="description" placeholder="Description..." class="block w-full bg-gray-200 text-gray-700 border-2 border-gray-200 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent">{!! old('description') ?? $product->description !!}</textarea>
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Email</label>
+                        <input type="email" name="email" value="{{ old('email') ?? $user->email }}" placeholder="User Email..." class="block w-full bg-gray-200 text-gray-700 border-2 border-gray-200 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent">
                     </div>
                 </div>
                 <div class="flex flex-wrap mx-3 mb-6">
                     <div class="w-full px-3">
-                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Price</label>
-                        <input type="number" name="price" value="{{ old('price') ?? $product->price }}" placeholder="Price..." class="block w-full bg-gray-200 text-gray-700 border-2 border-gray-200 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Roles</label>
+                        <select name="roles" class="block w-full bg-gray-200 text-gray-700 border-2 border-gray-200 rounded py-2 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-transparent">
+                            <option value="{{ $user->roles }}">{{ $user->roles }}</option>
+                            <option disabled>----------</option>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="USER">USER</option>
+                        </select>
                     </div>
                 </div>
                 <div class="flex flex-wrap mx-3 mb-6">

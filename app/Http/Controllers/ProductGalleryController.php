@@ -22,7 +22,7 @@ class ProductGalleryController extends Controller
     {
         if ( request()->ajax() ){
             
-            $query = ProductGallery::query();
+            $query = ProductGallery::query()->where('products_id', $product->id);
             
             return DataTables::of( $query )                    
                     ->editColumn( 'url', function($item) {

@@ -27,6 +27,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group( function() {
     Route::post('/addcart/{id}', [FrontendController::class, 'addCart'])->name('addcart');
     Route::delete('/deletecart/{id}', [FrontendController::class, 'deleteCart'])->name('deletecart');
     Route::get('/checkout/success', [FrontendController::class, 'success'])->name('checkout.success');
+    Route::post('/checkout', [FrontendController::class, 'checkout'])->name('checkout');
 
     Route::group([ 'prefix' => 'dashboard', 'as' => 'dashboard.'], function() {
         Route::get('/', [DashboardController::class, 'index'])->name('index');

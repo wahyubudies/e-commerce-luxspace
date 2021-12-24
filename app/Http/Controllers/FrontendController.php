@@ -85,7 +85,7 @@ class FrontendController extends Controller
         // Delete cart after transaction
         Cart::where('users_id', auth()->user()->id)->delete();
 
-        // Configuration        
+        // Set configuration midtrans
         Config::$serverKey = config('services.midtrans.serverKey');        
         Config::$isProduction = config('services.midtrans.isProduction');
         Config::$isSanitized = config('services.midtrans.isSanitized');

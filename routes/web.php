@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\MyTransactionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductGalleryController;
 use App\Http\Controllers\TransactionController;
@@ -31,6 +32,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group( function() {
 
     Route::group([ 'prefix' => 'dashboard', 'as' => 'dashboard.'], function() {
         Route::get('/', [DashboardController::class, 'index'])->name('index');
+        Route::resource('my-transaction', MyTransactionController::class)->only(['index','show']);
         Route::middleware('admin')->group( function() {   
             Route::resource('product', ProductController::class);
             Route::resource('product.gallery', ProductGalleryController::class)->shallow()->only(['index', 'create', 'store', 'destroy']);
